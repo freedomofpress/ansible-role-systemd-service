@@ -70,6 +70,7 @@ Below are the relevant fields required.
 |`systemd_service_Service_User`|String|| [Service]User
 |`systemd_service_Service_Group`|String|| [Service]Group
 |`systemd_service_Service_WorkingDirectory`|String|| [Service]WorkingDirectory
+|`systemd_service_Service_TimeoutStartSec`|String|"90s"| [Service]TimeoutStartSec
 
 
 

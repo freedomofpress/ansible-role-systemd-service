@@ -110,6 +110,7 @@ PrivateTmp={{ item.systemd_service_Service_PrivateTmp }}
 {% if item.systemd_service_Service_LimitNOFILE is defined %}
 LimitNOFILE={{ item.systemd_service_Service_LimitNOFILE }}
 {% endif -%}
+TimeoutStartSec={{ item.systemd_service_Service_TimeoutStartSec|default('90s') }}
 
 [Install]
 WantedBy={{ item.systemd_service_Install_WantedBy|default('multi-user.target') }}
