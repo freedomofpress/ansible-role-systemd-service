@@ -28,7 +28,8 @@ Below are the relevant fields required.
 |`systemd_service_default_dir`|String|"/etc/default"|envs file path
 |`systemd_service_systemd_dir`|String|"/etc/systemd/system"|systemd path
 |`systemd_service_name` * |String||service name
-|`systemd_service_envs`|String,List,MapList|[]|envs (/etc/default/:name)
+|`systemd_service_envs`|Dict|{}|envs (/etc/default/:name)
+|`systemd_service_envs_raw`|List|[]|envs (/etc/default/:name)
 
 > **Note**
 > `systemd_service_root_dir` is obsolate.
@@ -95,6 +96,8 @@ Example Playbook
           systemd_service_units:
             - systemd_service_name: "swarm-manager"
               systemd_service_envs:
+                DOCKER_OPTS: "--dns 8.8.8.8"
+              systemd_service_envs_raw:
                 - "DOCKER_HOST=tcp://127.0.0.1:2375"
               systemd_service_Unit_Description: Docker Swarm Manager
               systemd_service_Unit_Requires: docker.service

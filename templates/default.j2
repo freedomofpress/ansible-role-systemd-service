@@ -1,9 +1,6 @@
-{% for i in item.systemd_service_envs|default([]) %}
-{% if i is string  %}
-{{ i }}
-{% elif i is mapping %}
-{% for k,v in i.iteritems() %}
-{{ k }}={{ v }}
+{% for line in item.systemd_service_envs_raw|default([]) %}
+{{ line }}
 {% endfor %}
-{% endif %}
+{% for k,v in (item.systemd_service_envs|default({})).iteritems() %}
+{{ k }}={{ v }}
 {% endfor %}
