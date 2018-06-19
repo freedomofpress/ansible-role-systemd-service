@@ -26,3 +26,16 @@
 - name: reload systemctl manager configuration
   shell: systemctl daemon-reload
   when: service_file.changed and not ansible_unit_test
+
+- name: Create necessary directories for arbitrary scripts
+  file:
+    state: directory
+    dest: "{{ item.path | dirname }}"
+  with_items: "{{ systemd_service_scripts }}"
+
+- name: Drop arbitrary scripts
+  copy:
+    content: "{{ item.content }}"
+    mode: "{{ item.mode|default(0655) }}"
+    dest: "{{ item.path }}"
+  with_items: "{{ systemd_service_scripts }}"
