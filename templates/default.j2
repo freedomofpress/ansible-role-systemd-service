@@ -1,6 +1,6 @@
-{% for line in item.systemd_service_envs_raw|default([]) %}
+{% for line in item.envs_raw|default([]) %}
 {{ line }}
 {% endfor %}
-{% for k,v in (item.systemd_service_envs|default({})).iteritems() %}
+{% for k,v in (item.envs|default({})).iteritems() %}
 {{ k }}={{ v }}
 {% endfor %}

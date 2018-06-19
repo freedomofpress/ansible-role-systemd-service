@@ -2,7 +2,7 @@
 # handlers file for roles/systemd/service
 - name: reload systemd
   service:
-    name: "{{ item.systemd_service_name }}"
+    name: "{{ item.name }}"
     state: restarted
   with_items: "{{ systemd_service_units }}"
   when: not ansible_unit_test

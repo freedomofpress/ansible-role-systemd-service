@@ -10,12 +10,6 @@ Register services to systemd.
 > http://qiita.com/tumf/items/9d5ac6853685ba53214d
 
 
-Install
--------
-
-    $ ansible-galaxy install tumf.systemd-service
-
-
 Role Variables
 --------------
 
@@ -25,14 +19,14 @@ Below are the relevant fields required.
 
 |name                |type    |default|description
 |--------------------|--------|-------|-------------
-|`systemd_service_default_dir`|String|"/etc/default"|envs file path
-|`systemd_service_systemd_dir`|String|"/etc/systemd/system"|systemd path
-|`systemd_service_name` * |String||service name
-|`systemd_service_envs`|Dict|{}|envs (/etc/default/:name)
-|`systemd_service_envs_raw`|List|[]|envs (/etc/default/:name)
+|`default_dir`|String|"/etc/default"|envs file path
+|`systemd_dir`|String|"/etc/systemd/system"|systemd path
+|`name` * |String||service name
+|`envs`|Dict|{}|envs (/etc/default/:name)
+|`envs_raw`|List|[]|envs (/etc/default/:name)
 
 > **Note**
-> `systemd_service_root_dir` is obsolate.
+> `root_dir` is obsolate.
 
 
 ### [Unit]
@@ -40,13 +34,13 @@ Below are the relevant fields required.
 
 |name                |type    |default|description
 |--------------------|--------|-------|-------------
-|`systemd_service_Unit_Description`|String||[Unit]Description
-|`systemd_service_Unit_Documentation`|String||[Unit]Documentation
-|`systemd_service_Unit_Requires`|String,List||[Unit]Requires
-|`systemd_service_Unit_Wants`|String,List||[Unit]Wants
-|`systemd_service_Unit_ConditionPathExists`|String||[Unit]ConditionPathExists
-|`systemd_service_Unit_After`|String,List||[Unit]After
-|`systemd_service_Unit_Before`|String,List||[Unit]Before
+|`Unit_Description`|String||[Unit]Description
+|`Unit_Documentation`|String||[Unit]Documentation
+|`Unit_Requires`|String,List||[Unit]Requires
+|`Unit_Wants`|String,List||[Unit]Wants
+|`Unit_ConditionPathExists`|String||[Unit]ConditionPathExists
+|`Unit_After`|String,List||[Unit]After
+|`Unit_Before`|String,List||[Unit]Before
 
 
 ### [Service]
@@ -54,24 +48,24 @@ Below are the relevant fields required.
 
 |name                |type    |default|description
 |--------------------|--------|-------|-------------
-|`systemd_service_Service_Type`|String|"simple"|[Service]Type
-|`systemd_service_Service_ExecStartPre`|String,List||[Service]ExecStartPre
-|`systemd_service_Service_ExecStart` * |String||[Service]ExecStart
-|`systemd_service_Service_ExecStartPost`|String,List||[Service]ExecStartPost
-|`systemd_service_Service_Restart`|String|"no"| [Service]Restart "no" or "always" or "on-success" or "on-failure"
-|`systemd_service_Service_RestartSec`|Integer|| [Service]RestartSec
-|`systemd_service_Service_ExecReload`|String|| [Service]ExecReload
-|`systemd_service_Service_ExecStop`|String|| [Service]ExecStop
-|`systemd_service_Service_KillMode`|String|| [Service]KillMode
-|`systemd_service_Service_ExecStopPost`|String,List|| [Service]ExecStopPost
-|`systemd_service_Service_PIDFile`|String|| [Service]PIDFile
-|`systemd_service_Service_BusName`|String|| [Service]BusName
-|`systemd_service_Service_PrivateTmp`|String|| [Service]PrivateTmp
-|`systemd_service_Service_LimitNOFILE`|String|| [Service]LimitNOFILE
-|`systemd_service_Service_User`|String|| [Service]User
-|`systemd_service_Service_Group`|String|| [Service]Group
-|`systemd_service_Service_WorkingDirectory`|String|| [Service]WorkingDirectory
-|`systemd_service_Service_TimeoutStartSec`|String|"90s"| [Service]TimeoutStartSec
+|`Service_Type`|String|"simple"|[Service]Type
+|`Service_ExecStartPre`|String,List||[Service]ExecStartPre
+|`Service_ExecStart` * |String||[Service]ExecStart
+|`Service_ExecStartPost`|String,List||[Service]ExecStartPost
+|`Service_Restart`|String|"no"| [Service]Restart "no" or "always" or "on-success" or "on-failure"
+|`Service_RestartSec`|Integer|| [Service]RestartSec
+|`Service_ExecReload`|String|| [Service]ExecReload
+|`Service_ExecStop`|String|| [Service]ExecStop
+|`Service_KillMode`|String|| [Service]KillMode
+|`Service_ExecStopPost`|String,List|| [Service]ExecStopPost
+|`Service_PIDFile`|String|| [Service]PIDFile
+|`Service_BusName`|String|| [Service]BusName
+|`Service_PrivateTmp`|String|| [Service]PrivateTmp
+|`Service_LimitNOFILE`|String|| [Service]LimitNOFILE
+|`Service_User`|String|| [Service]User
+|`Service_Group`|String|| [Service]Group
+|`Service_WorkingDirectory`|String|| [Service]WorkingDirectory
+|`Service_TimeoutStartSec`|String|"90s"| [Service]TimeoutStartSec
 
 
 
@@ -79,10 +73,10 @@ Below are the relevant fields required.
 
 |name                |type    |default|description
 |--------------------|--------|-------|-------------
-|`systemd_service_Install_WantedBy`|String|[Install]WantedBy "multi-user.target"|[Install]WantedBy
-|`systemd_service_Install_RequiredBy`|String||[Install]RequiredBy
-|`systemd_service_Install_Also`|String||[Install]Also
-|`systemd_service_Install_Alias`|String||[Install]Alias
+|`Install_WantedBy`|String|[Install]WantedBy "multi-user.target"|[Install]WantedBy
+|`Install_RequiredBy`|String||[Install]RequiredBy
+|`Install_Also`|String||[Install]Also
+|`Install_Alias`|String||[Install]Alias
 
 
 > * Required
@@ -94,19 +88,19 @@ Example Playbook
       roles:
         - role: systemd-service
           systemd_service_units:
-            - systemd_service_name: "swarm-manager"
-              systemd_service_envs:
+            - name: "swarm-manager"
+              envs:
                 DOCKER_OPTS: "--dns 8.8.8.8"
-              systemd_service_envs_raw:
+              envs_raw:
                 - "DOCKER_HOST=tcp://127.0.0.1:2375"
-              systemd_service_Unit_Description: Docker Swarm Manager
-              systemd_service_Unit_Requires: docker.service
-              systemd_service_Unit_After: docker.service
-              systemd_service_Service_ExecStartPre:
+              Unit_Description: Docker Swarm Manager
+              Unit_Requires: docker.service
+              Unit_After: docker.service
+              Service_ExecStartPre:
                 - -/usr/bin/docker stop swarm-manager
                 - -/usr/bin/docker rm swarm-manager
                 - /usr/bin/docker pull swarm
-              systemd_service_Service_ExecStart: /usr/bin/docker run -p 2377:2375 --name swarm-manager swarm manage
+              Service_ExecStart: /usr/bin/docker run -p 2377:2375 --name swarm-manager swarm manage
 
 License
 -------
@@ -116,4 +110,5 @@ MIT
 Author Information
 ------------------
 
-> @tumf
+* Originally developed by @tumf
+* Heavily tweaked by Freedom of the Press Foundation
