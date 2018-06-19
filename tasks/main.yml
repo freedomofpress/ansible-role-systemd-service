@@ -39,3 +39,10 @@
     mode: "{{ item.mode|default(0655) }}"
     dest: "{{ item.path }}"
   with_items: "{{ systemd_service_scripts }}"
+
+- name: enable and start services
+  service:
+    name: "{{ item.name }}"
+    state: "{{ item.initial_state|default('started') }}"
+    enabled: "{{ item.enabled|default(false) }}"
+  with_items: "{{ systemd_service_units }}"
